@@ -1,0 +1,48 @@
+<%- include('partials/header') %>
+<div class="section-heading">
+  <h1>Add New Skincare Log</h1>
+</div>
+<form action="/logs/add" method="post" enctype="multipart/form-data" class="form-card">
+  <div class="row gx-4 gy-4">
+    <div class="col-md-6">
+      <label class="form-label">Date</label>
+      <input type="date" name="date" class="form-control" required />
+    </div>
+    <div class="col-md-6">
+      <label class="form-label">Routine type</label>
+      <select name="routineType" class="form-select" required>
+        <option value="Morning">Morning</option>
+        <option value="Night">Night</option>
+      </select>
+    </div>
+    <div class="col-12">
+      <label class="form-label">Skin condition</label>
+      <input type="text" name="skinCondition" class="form-control" placeholder="Dry, oily, irritated..." required />
+    </div>
+    <div class="col-12">
+      <label class="form-label">Products used</label>
+      <textarea name="productsUsed" class="form-control" rows="4" placeholder="Cleanser, toner, moisturizer..." required></textarea>
+    </div>
+    <div class="col-md-6">
+      <label class="form-label">Product image</label>
+      <input type="file" name="productsPhoto" class="form-control" accept="image/*" />
+    </div>
+    <div class="col-md-6">
+      <label class="form-label">Result image</label>
+      <input type="file" name="resultPhoto" class="form-control" accept="image/*" />
+    </div>
+    <div class="col-12">
+      <label class="form-label">Results / notes</label>
+      <textarea name="result" class="form-control" rows="4" placeholder="How your skin felt after..." required></textarea>
+    </div>
+    <div class="col-md-4">
+      <label class="form-label">Rating</label>
+      <input type="number" name="rating" class="form-control" min="1" max="5" value="4" required />
+    </div>
+    <div class="col-12 d-flex flex-wrap gap-3 justify-content-between align-items-center">
+      <a href="/logs" class="btn btn-outline-secondary btn-pill">Cancel</a>
+      <button type="submit" class="btn btn-primary btn-pill">Save Log</button>
+    </div>
+  </div>
+</form>
+<%- include('partials/footer') %>

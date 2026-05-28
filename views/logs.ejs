@@ -1,0 +1,98 @@
+<%- include('partials/header') %>
+<div class="page-heading">
+  <div>
+    <h1>Skincare Logs</h1>
+    <p>Search, filter, and review your routine history.</p>
+  </div>
+  <a href="/logs/add" class="btn btn-primary btn-pill">Add New Log</a>
+</div>
+<% if (flash) { %>
+<div class="alert alert-success flash-alert" role="status"><%= flash.text %></div>
+<% } %>
+<section class="stats-strip">
+  <div class="stat-card">
+    <h3>Total Logs</h3>
+    <p class="stat-value"><%= totalLogs %></p>
+    <p class="stat-subtitle">A complete view of your skincare notes.</p>
+  </div>
+  <div class="stat-card">
+    <h3>Avg. Rating</h3>
+    <p class="stat-value"><%= averageRating %></p>
+    <p class="stat-subtitle">Average routine outcome across all entries.</p>
+  </div>
+  <div class="stat-card">
+    <h3>Streak</h3>
+    <p class="stat-value"><%= streak %> days</p>
+    <p class="stat-subtitle">Momentum from your latest entries.</p>
+  </div>
+</section>
+<section class="form-card search-panel mb-4">
+  <form action="/logs/search" method="get" class="row gx-4 gy-3">
+    <div class="col-md-4">
+      <label class="form-label">Product</label>
+      <input type="text" name="product" class="form-control" value="<%= filters.product || '' %>" placeholder="Cleanser, moisturizer..." />
+    </div>
+    <div class="col-md-4">
+      <label class="form-label">Skin condition</label>
+      <input type="text" name="condition" class="form-control" value="<%= filters.condition || '' %>" placeholder="Dry, oily, irritated..." />
+    </div>
+    <div class="col-md-3">
+      <label class="form-label">Routine type</label>
+      <select name="routineType" class="form-select">
+        <option value="All" <%= filters.routineType === 'All' ? 'selected' : '' %>>All</option>
+        <option value="Morning" <%= filters.routineType === 'Morning' ? 'selected' : '' %>>Morning</option>
+        <option value="Night" <%= filters.routineType === 'Night' ? 'selected' : '' %>>Night</option>
+      </select>
+    </div>
+    <div class="col-md-auto d-flex align-items-end">
+      <button type="submit" class="btn btn-primary btn-pill find-button">Find</button>
+    </div>
+  </form>
+</section>
+<% if (logs.length === 0) { %>
+<div class="alert alert-warning">No logs match your search. Try a different filter or add one.</div>
+<% } else { %>
+<div class="table-responsive">
+  <table class="floreces-table">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Routine</th>
+        <th>Condition</th>
+        <th>Result</th>
+        <th>Rating</th>
+        <th class="text-end">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% logs.forEach(log => { %>
+      <tr>
+        <td><%= formatDate(log.date) %></td>
+        <td><span class="badge-pill <%= routineBadgeClass(log.routineType) %>"><%= log.routineType %></span></td>
+        <td>
+          <%= log.skinCondition %>
+          <% if (log.productsPhoto) { %>
+            <div class="attachment-badge">Product photo</div>
+          <% } %>
+        </td>
+        <td>
+          <%= log.result %>
+          <% if (log.resultPhoto) { %>
+            <div class="attachment-badge">Result photo</div>
+          <% } %>
+        </td>
+        <td class="rating-cell"><span class="rating-stars"><%= starsFor(log.rating) %></span> <span class="rating-copy"><%= log.rating %> / 5</span></td>
+        <td class="text-end action-buttons">
+          <a href="/logs/<%= log.id %>" class="btn btn-outline-primary btn-sm">View</a>
+          <a href="/logs/edit/<%= log.id %>" class="btn btn-outline-secondary btn-sm">Edit</a>
+          <form action="/logs/delete/<%= log.id %>" method="post" class="d-inline delete-log-form">
+            <button type="submit" class="btn btn-outline-danger btn-sm">Delete</button>
+          </form>
+        </td>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+<% } %>
+<%- include('partials/footer') %>

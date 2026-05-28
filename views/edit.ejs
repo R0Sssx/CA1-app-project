@@ -1,0 +1,54 @@
+<%- include('partials/header') %>
+<div class="section-heading">
+  <h1>Edit Skincare Log</h1>
+</div>
+<form action="/logs/edit/<%= log.id %>" method="post" enctype="multipart/form-data" class="form-card">
+  <div class="row gx-4 gy-4">
+    <div class="col-md-6">
+      <label class="form-label">Date</label>
+      <input type="date" name="date" class="form-control" value="<%= log.date %>" required />
+    </div>
+    <div class="col-md-6">
+      <label class="form-label">Routine type</label>
+      <select name="routineType" class="form-select" required>
+        <option value="Morning" <%= log.routineType === 'Morning' ? 'selected' : '' %>>Morning</option>
+        <option value="Night" <%= log.routineType === 'Night' ? 'selected' : '' %>>Night</option>
+      </select>
+    </div>
+    <div class="col-12">
+      <label class="form-label">Skin condition</label>
+      <input type="text" name="skinCondition" class="form-control" value="<%= log.skinCondition %>" required />
+    </div>
+    <div class="col-12">
+      <label class="form-label">Products used</label>
+      <textarea name="productsUsed" class="form-control" rows="4" required><%= log.productsUsed %></textarea>
+    </div>
+    <div class="col-md-6">
+      <label class="form-label">Product image</label>
+      <input type="file" name="productsPhoto" class="form-control" accept="image/*" />
+      <% if (log.productsPhoto) { %>
+      <small class="text-muted">Current: <%= log.productsPhoto %></small>
+      <% } %>
+    </div>
+    <div class="col-md-6">
+      <label class="form-label">Result image</label>
+      <input type="file" name="resultPhoto" class="form-control" accept="image/*" />
+      <% if (log.resultPhoto) { %>
+      <small class="text-muted">Current: <%= log.resultPhoto %></small>
+      <% } %>
+    </div>
+    <div class="col-12">
+      <label class="form-label">Results / notes</label>
+      <textarea name="result" class="form-control" rows="4" required><%= log.result %></textarea>
+    </div>
+    <div class="col-md-4">
+      <label class="form-label">Rating</label>
+      <input type="number" name="rating" class="form-control" min="1" max="5" value="<%= log.rating %>" required />
+    </div>
+    <div class="col-12 d-flex flex-wrap gap-3 justify-content-between align-items-center">
+      <a href="/logs" class="btn btn-outline-secondary btn-pill">Back</a>
+      <button type="submit" class="btn btn-primary btn-pill">Update Log</button>
+    </div>
+  </div>
+</form>
+<%- include('partials/footer') %>

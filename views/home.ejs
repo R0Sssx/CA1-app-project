@@ -1,0 +1,69 @@
+<%- include('partials/header') %>
+<section class="hero-panel">
+  <div class="hero-copy">
+    <p class="eyebrow">FloreceS</p>
+    <h1>Skincare <span class="hero-accent">Logs</span></h1>
+    <p class="hero-text">Search, filter, and review your routine history with a calm, ritual-first interface designed for skin wellness.</p>
+    <div class="hero-actions">
+      <a href="/logs/add" class="btn btn-primary btn-pill">+ Add New Log</a>
+      <a href="/logs" class="hero-link">View all logs</a>
+    </div>
+  </div>
+  <div class="hero-deco" aria-hidden="true">
+    <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <g transform="translate(60 60)">
+        <ellipse rx="18" ry="45" fill="#e8c4b0" opacity="0.72"/>
+        <ellipse rx="18" ry="45" fill="#edc4b8" opacity="0.58" transform="rotate(45)"/>
+        <ellipse rx="18" ry="45" fill="#e8c4b0" opacity="0.72" transform="rotate(90)"/>
+        <ellipse rx="18" ry="45" fill="#edc4b8" opacity="0.58" transform="rotate(135)"/>
+        <circle cx="0" cy="0" r="16" fill="#c9a96e"/>
+        <circle cx="0" cy="0" r="7" fill="#fff4e8"/>
+      </g>
+    </svg>
+  </div>
+</section>
+<section class="stats-strip">
+  <div class="stat-card">
+    <h3>Total Logs</h3>
+    <p class="stat-value"><%= totalLogs %></p>
+    <p class="stat-subtitle">A growing log of your skincare moments.</p>
+  </div>
+  <div class="stat-card">
+    <h3>Avg. Rating</h3>
+    <p class="stat-value"><%= averageRating %></p>
+    <p class="stat-subtitle">Average outcome across all routines.</p>
+  </div>
+  <div class="stat-card">
+    <h3>Streak</h3>
+    <p class="stat-value"><%= streak %> days</p>
+    <p class="stat-subtitle">Consistent tracking builds clarity.</p>
+  </div>
+</section>
+<section class="recent-section">
+  <div class="section-heading">
+    <h2>Recent routines</h2>
+    <a href="/logs" class="text-link">See all logs</a>
+  </div>
+  <% if (recentLogs.length === 0) { %>
+  <div class="alert alert-info">No logs yet. Add your first skincare ritual to begin.</div>
+  <% } else { %>
+  <div class="card-grid">
+    <% recentLogs.forEach(log => { %>
+    <article class="log-card">
+      <div class="card-top">
+        <span class="log-date"><%= formatDate(log.date) %></span>
+        <span class="badge-pill <%= routineBadgeClass(log.routineType) %>"><%= log.routineType %></span>
+      </div>
+      <p class="log-condition"><strong>Condition:</strong> <%= log.skinCondition %></p>
+      <p class="log-result"><strong>Result:</strong> <%= log.result %></p>
+      <div class="log-meta">
+        <span class="rating-stars"><%= starsFor(log.rating) %></span>
+        <span class="rating-copy"><%= log.rating %> / 5</span>
+      </div>
+      <a href="/logs/<%= log.id %>" class="card-link">View details</a>
+    </article>
+    <% }) %>
+  </div>
+  <% } %>
+</section>
+<%- include('partials/footer') %>

@@ -1,0 +1,30 @@
+<%- include('partials/header') %>
+<div class="section-heading">
+  <h1>Routine detail</h1>
+</div>
+<article class="detail-card">
+  <p><strong>Date:</strong> <%= formatDate(log.date) %></p>
+  <p><strong>Routine type:</strong> <span class="badge-pill <%= routineBadgeClass(log.routineType) %>"><%= log.routineType %></span></p>
+  <p><strong>Skin condition:</strong> <%= log.skinCondition %></p>
+  <p><strong>Products used:</strong></p>
+  <p><%= log.productsUsed %></p>
+  <% if (log.productsPhoto) { %>
+  <p><strong>Product image:</strong></p>
+  <img src="/uploads/<%= log.productsPhoto %>" alt="Product used image" class="attachment-preview" />
+  <% } %>
+  <p><strong>Result / notes:</strong></p>
+  <p><%= log.result %></p>
+  <% if (log.resultPhoto) { %>
+  <p><strong>Result image:</strong></p>
+  <img src="/uploads/<%= log.resultPhoto %>" alt="Result image" class="attachment-preview" />
+  <% } %>
+  <p><strong>Rating:</strong> <span class="rating-stars"><%= starsFor(log.rating) %></span> <%= log.rating %> / 5</p>
+  <div class="detail-actions">
+    <a href="/logs/edit/<%= log.id %>" class="btn btn-outline-secondary btn-pill">Edit</a>
+    <form action="/logs/delete/<%= log.id %>" method="post" class="d-inline delete-log-form">
+      <button type="submit" class="btn btn-outline-danger btn-pill">Delete</button>
+    </form>
+    <a href="/logs" class="btn btn-primary btn-pill">Back to logs</a>
+  </div>
+</article>
+<%- include('partials/footer') %>
